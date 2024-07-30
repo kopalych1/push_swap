@@ -1,0 +1,9 @@
+.vscode
+*.dSYM/
+
+*.out
+*.exe
+*.o
+*.a
+*.so
+push_swap
