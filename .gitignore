@@ -1,5 +1,6 @@
 .vscode
 *.dSYM/
+*.log
 
 *.out
 *.exe
@@ -7,3 +8,7 @@
 *.a
 *.so
 push_swap
+
+# checker_*
+# generator.py
+# run.sh

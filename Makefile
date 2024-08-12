@@ -6,7 +6,7 @@
 #    By: akostian <akostian@student.s19.be>         +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/07/30 14:25:34 by akostian          #+#    #+#              #
-#    Updated: 2024/07/30 15:06:49 by akostian         ###   ########.fr        #
+#    Updated: 2024/08/06 07:54:55 by akostian         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -15,8 +15,10 @@ NAME		= push_swap
 
 SRCS		= src/main.c \
 			  src/parse.c \
-			  src/libft.c
-
+			  src/libft.c \
+			  src/stack_functions.c \
+			  src/stack_utils.c \
+			  src/algo.c
 INCLUDES	= -Iinclude
 
 CC			= gcc
