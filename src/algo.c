@@ -6,11 +6,26 @@
 /*   By: akostian <akostian@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/06 07:41:21 by akostian          #+#    #+#             */
-/*   Updated: 2024/08/09 07:57:20 by akostian         ###   ########.fr       */
+/*   Updated: 2024/08/12 11:47:57 by akostian         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/push_swap.h"
+
+double	calc_percentage(int x)
+{
+	if (x >= 1000)
+		return (0.08);
+	else if (x >= 500)
+		return (0.12);
+	else if (x >= 300)
+		return (0.18);
+	else if (x >= 100)
+		return (0.23);
+	else if (x <= 5)
+		return (1);
+	return (0.26);
+}
 
 void	push_b(
 				t_stack *stack_a,
@@ -84,12 +99,13 @@ void	stage_two(t_stack *stack_a, t_stack *stack_b)
 	}
 }
 
-int	sort_algorithm(t_stack *stack_a, t_stack *stack_b, float chunk_percentage)
+int	sort_algorithm(t_stack *stack_a, t_stack *stack_b)
 {
 	t_sorting_settings	settings;
 
 	settings.initial_length = stack_a->length;
-	settings.elements_amount = chunk_percentage * stack_a->length;
+	settings.elements_amount
+		= calc_percentage(stack_a->length) * stack_a->length;
 	settings.sorted = sort_stack(stack_a);
 	if (!settings.sorted)
 		return (-1);
