@@ -6,111 +6,148 @@
 /*   By: akostian <akostian@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/06 07:41:21 by akostian          #+#    #+#             */
-/*   Updated: 2024/08/12 11:47:57 by akostian         ###   ########.fr       */
+/*   Updated: 2024/08/13 11:32:39 by akostian         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/push_swap.h"
 
-double	calc_percentage(int x)
+int	(*calculate_a_push_cost(
+							t_stack *stack_a,
+							t_stack *stack_b,
+							int *min_index
+))[2]
 {
-	if (x >= 1000)
-		return (0.08);
-	else if (x >= 500)
-		return (0.12);
-	else if (x >= 300)
-		return (0.18);
-	else if (x >= 100)
-		return (0.23);
-	else if (x <= 5)
-		return (1);
-	return (0.26);
+	int	i;
+	int	least_moves;
+	int	moves;
+	int	(*push_cost)[2];
+
+	push_cost = malloc((sizeof(int) * 2) * stack_a->length);
+	if (!push_cost)
+		return (NULL);
+	least_moves = INT_MAX;
+	i = -1;
+	while (++i < stack_a->length)
+	{
+		calculate_a_cost(stack_a, stack_b, i, push_cost);
+		if ((push_cost[i][0] < 0 && push_cost[i][1] < 0)
+			|| (push_cost[i][0] > 0 && push_cost[i][1] > 0))
+			moves = ft_max(ft_abs(push_cost[i][0]), ft_abs(push_cost[i][1]));
+		else
+			moves = ft_abs(push_cost[i][0]) + ft_abs(push_cost[i][1]);
+		if (moves < least_moves)
+		{
+			least_moves = moves;
+			*min_index = i;
+		}
+	}
+	return (push_cost);
 }
 
-void	push_b(
-				t_stack *stack_a,
-				t_stack *stack_b,
-				t_sorting_settings *settings,
-				int i
-)
+int	(*calculate_b_push_cost(
+							t_stack *stack_a,
+							t_stack *stack_b,
+							int *min_index
+))[2]
 {
-	int			current_len;
-	int			current_el;
-	int			j;
+	int	i;
+	int	moves;
+	int	least_moves;
+	int	(*push_cost)[2];
 
-	current_len = stack_a->length;
-	j = 0;
-	while (j++ < current_len && stack_a->length)
+	push_cost = malloc((sizeof(int) * 2) * stack_b->length);
+	if (!push_cost)
+		return (NULL);
+	least_moves = INT_MAX;
+	i = -1;
+	while (++i < stack_b->length)
 	{
-		current_el = stack_a->elements[stack_a->length - 1];
-		if (is_in_array(
-				current_el,
-				&(settings->sorted[i * settings->elements_amount]),
-				settings->sorted_length
-			))
-		{
-			pb(stack_a, stack_b);
-			if (current_el >= settings->current_average)
-				rb(stack_b);
-		}
+		calculate_b_cost(stack_a, stack_b, i, push_cost);
+		if ((push_cost[i][0] < 0 && push_cost[i][1] < 0)
+			|| (push_cost[i][0] > 0 && push_cost[i][1] > 0))
+			moves = ft_max(ft_abs(push_cost[i][0]), ft_abs(push_cost[i][1]));
 		else
-			ra(stack_a);
+			moves = ft_abs(push_cost[i][0]) + ft_abs(push_cost[i][1]);
+		if (moves < least_moves)
+		{
+			least_moves = moves;
+			*min_index = i;
+		}
 	}
+	return (push_cost);
 }
 
 void	stage_one(
 				t_stack *stack_a,
-				t_stack *stack_b,
-				t_sorting_settings *settings
+				t_stack *stack_b
 )
 {
-	int			i;
+	int		(*push_cost)[2];
+	int		min_index;
 
-	i = 0;
-	while (stack_a->length)
+	while (stack_a->length > 3)
 	{
-		settings->sorted_length = ft_min(settings->elements_amount,
-				settings->initial_length - (i * settings->elements_amount));
-		settings->current_a_length = stack_a->length;
-		settings->current_average = count_average(
-				&(settings->sorted[i * settings->elements_amount]),
-				settings->sorted_length);
-		push_b(stack_a, stack_b, settings, i);
-		i++;
+		if (stack_b->length < 2)
+		{
+			pb(stack_a, stack_b, 1);
+			continue ;
+		}
+		push_cost = calculate_a_push_cost(stack_a, stack_b, &min_index);
+		rotate_stacks(stack_a, stack_b, push_cost[min_index]);
+		pb(stack_a, stack_b, 1);
+		free(push_cost);
 	}
 }
 
 void	stage_two(t_stack *stack_a, t_stack *stack_b)
 {
-	int	max_index;
+	int		min_index;
+	int		max_index;
+	int		(*push_cost)[2];
 
 	while (stack_b->length)
 	{
-		max_index = find_max_index(stack_b);
-		while (max_index != stack_b->length - 1)
-		{
-			if ((max_index - (stack_b->length / 2)) < 0)
-				rrb(stack_b);
-			else
-				rb(stack_b);
-			max_index = find_max_index(stack_b);
-		}
-		pa(stack_a, stack_b);
+		push_cost = calculate_b_push_cost(stack_a, stack_b, &min_index);
+		rotate_stacks(stack_a, stack_b, push_cost[min_index]);
+		pa(stack_a, stack_b, 1);
+		free(push_cost);
+	}
+	max_index = ft_arr_max_index(stack_a->elements, stack_a->length);
+	while (max_index)
+	{
+		if (max_index < (stack_a->length / 2))
+			rra(stack_a, 1);
+		else
+			ra(stack_a, 1);
+		max_index = ft_arr_max_index(stack_a->elements, stack_a->length);
 	}
 }
 
 int	sort_algorithm(t_stack *stack_a, t_stack *stack_b)
 {
-	t_sorting_settings	settings;
-
-	settings.initial_length = stack_a->length;
-	settings.elements_amount
-		= calc_percentage(stack_a->length) * stack_a->length;
-	settings.sorted = sort_stack(stack_a);
-	if (!settings.sorted)
-		return (-1);
-	stage_one(stack_a, stack_b, &settings);
+	stage_one(stack_a, stack_b);
+	sort_three(stack_a);
 	stage_two(stack_a, stack_b);
-	free(settings.sorted);
 	return (0);
 }
+
+/* 
+	// int i = 0;
+	// while (i < stack_a->length)
+	// {
+	// 	ft_printf("|%d|:\t\t{%d} |%d|   \t\t(%d) (%d + %d)\n",
+	// 		stack_a->elements[stack_a->length - 1 - i],
+	//		find_closest_min(stack_a->elements[stack_a->length - 1 - i],
+				stack_b),
+	// 		stack_b->elements[find_closest_min
+				stack_a->elements[stack_a->length - 1 - i], stack_b)],
+	// 		ft_abs(push_cost[stack_a->length - 1 - i][0])
+				+ ft_abs(push_cost[stack_a->length - 1 - i][1]),
+	// 		push_cost[stack_a->length - 1 - i][0],
+	// 		push_cost[stack_a->length - 1 - i][1]
+	// 		);
+	// 	i++;
+	// }
+	// ft_printf("min_index: %d\n", min_index);
+ */

@@ -6,7 +6,7 @@
 /*   By: akostian <akostian@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/30 14:22:38 by akostian          #+#    #+#             */
-/*   Updated: 2024/08/12 11:46:03 by akostian         ###   ########.fr       */
+/*   Updated: 2024/08/13 10:11:13 by akostian         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,8 @@ int	main(int argc, char **argv)
 		if (stack_a.elements[0] < stack_a.elements[1])
 			ft_printf("sa\n");
 	}
+	if (stack_a.length == 3)
+		sort_three(&stack_a);
 	else
 		sort_algorithm(&stack_a, &stack_b);
 	return (free(stack_a.elements), free(stack_b.elements), 1);

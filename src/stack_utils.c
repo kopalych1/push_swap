@@ -6,48 +6,54 @@
 /*   By: akostian <akostian@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/06 06:52:18 by akostian          #+#    #+#             */
-/*   Updated: 2024/08/09 11:30:15 by akostian         ###   ########.fr       */
+/*   Updated: 2024/08/13 10:15:42 by akostian         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/push_swap.h"
 
-int	find_max_index(t_stack *stack)
+int	ft_arr_max_index(int *arr, size_t size)
 {
-	int	i;
-	int	max;
+	size_t	i;
+	int		max;
 
-	i = -1;
-	if (stack->length < 1)
+	if (size < 1)
 		return (-1);
-	max = stack->elements[0];
-	while (++i < stack->length)
-		if (stack->elements[i] > max)
-			max = stack->elements[i];
-	i = -1;
-	while (++i < stack->length)
-		if (stack->elements[i] == max)
+	max = arr[0];
+	i = 0;
+	while (i < size)
+	{
+		if (arr[i] > max)
+			max = arr[i];
+		i++;
+	}
+	i = 0;
+	while (i < size)
+		if (arr[i++] == max)
 			break ;
-	return (i);
+	return (--i);
 }
 
-int	find_min_index(t_stack *stack)
+int	ft_arr_min_index(int *arr, size_t size)
 {
-	int	i;
-	int	min;
+	size_t	i;
+	int		min;
 
-	if (stack->length < 1)
+	if (size < 1)
 		return (-1);
-	min = stack->elements[0];
-	i = -1;
-	while (++i < stack->length)
-		if (stack->elements[i] < min)
-			min = stack->elements[i];
-	i = -1;
-	while (++i < stack->length)
-		if (stack->elements[i] == min)
+	min = arr[0];
+	i = 0;
+	while (i < size)
+	{
+		if (arr[i] < min)
+			min = arr[i];
+		i++;
+	}
+	i = 0;
+	while (i < size)
+		if (arr[i++] == min)
 			break ;
-	return (i);
+	return (--i);
 }
 
 int	*sort_stack(t_stack *stack)
@@ -117,10 +123,10 @@ void	print_stacks(t_stack *stack_a, t_stack *stack_b)
 	int	a_min_index;
 	int	b_min_index;
 
-	a_max_index = find_max_index(stack_a);
-	b_max_index = find_max_index(stack_b);
-	a_min_index = find_min_index(stack_a);
-	b_min_index = find_min_index(stack_b);
+	a_max_index = ft_arr_max_index(stack_a->elements, stack_a->length);
+	b_max_index = ft_arr_max_index(stack_b->elements, stack_b->length);
+	a_min_index = ft_arr_min_index(stack_a->elements, stack_a->length);
+	b_min_index = ft_arr_min_index(stack_b->elements, stack_b->length);
 	i = ft_max(stack_a->length, stack_b->length) - 1;
 	while (i >= 0)
 	{
