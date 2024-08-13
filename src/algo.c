@@ -6,7 +6,7 @@
 /*   By: akostian <akostian@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/06 07:41:21 by akostian          #+#    #+#             */
-/*   Updated: 2024/08/13 11:32:39 by akostian         ###   ########.fr       */
+/*   Updated: 2024/08/13 13:55:35 by akostian         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,7 +78,7 @@ int	(*calculate_b_push_cost(
 	return (push_cost);
 }
 
-void	stage_one(
+int	stage_one(
 				t_stack *stack_a,
 				t_stack *stack_b
 )
@@ -94,13 +94,16 @@ void	stage_one(
 			continue ;
 		}
 		push_cost = calculate_a_push_cost(stack_a, stack_b, &min_index);
+		if (!push_cost)
+			return (-1);
 		rotate_stacks(stack_a, stack_b, push_cost[min_index]);
 		pb(stack_a, stack_b, 1);
 		free(push_cost);
 	}
+	return (0);
 }
 
-void	stage_two(t_stack *stack_a, t_stack *stack_b)
+int	stage_two(t_stack *stack_a, t_stack *stack_b)
 {
 	int		min_index;
 	int		max_index;
@@ -109,6 +112,8 @@ void	stage_two(t_stack *stack_a, t_stack *stack_b)
 	while (stack_b->length)
 	{
 		push_cost = calculate_b_push_cost(stack_a, stack_b, &min_index);
+		if (!push_cost)
+			return (-1);
 		rotate_stacks(stack_a, stack_b, push_cost[min_index]);
 		pa(stack_a, stack_b, 1);
 		free(push_cost);
@@ -122,13 +127,16 @@ void	stage_two(t_stack *stack_a, t_stack *stack_b)
 			ra(stack_a, 1);
 		max_index = ft_arr_max_index(stack_a->elements, stack_a->length);
 	}
+	return (0);
 }
 
 int	sort_algorithm(t_stack *stack_a, t_stack *stack_b)
 {
-	stage_one(stack_a, stack_b);
+	if (stage_one(stack_a, stack_b) == -1)
+		return (-1);
 	sort_three(stack_a);
-	stage_two(stack_a, stack_b);
+	if (stage_two(stack_a, stack_b) == -1)
+		return (-1);
 	return (0);
 }
 
