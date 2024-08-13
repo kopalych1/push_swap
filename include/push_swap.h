@@ -6,7 +6,7 @@
 /*   By: akostian <akostian@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/30 14:22:35 by akostian          #+#    #+#             */
-/*   Updated: 2024/08/13 11:32:23 by akostian         ###   ########.fr       */
+/*   Updated: 2024/08/13 14:10:24 by akostian         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,6 +61,7 @@ int		is_sorted(int *arr, size_t size);
 
 int		parse_argv(t_stack *stack_a, t_stack *stack_b, char *argv);
 int		sort_algorithm(t_stack *stack_a, t_stack *stack_b);
+int		sort_algorithm2(t_stack *stack_a, t_stack *stack_b);
 
 /* LIBFT */
 int		ft_max(const int val1, const int val2);
