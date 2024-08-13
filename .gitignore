@@ -9,6 +9,5 @@
 *.so
 push_swap
 
-# checker_*
-# generator.py
-# run.sh
+# :(
+/tests
