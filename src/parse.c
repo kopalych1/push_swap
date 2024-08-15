@@ -6,7 +6,7 @@
 /*   By: akostian <akostian@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/30 14:57:37 by akostian          #+#    #+#             */
-/*   Updated: 2024/08/06 07:58:34 by akostian         ###   ########.fr       */
+/*   Updated: 2024/08/15 16:30:22 by akostian         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,30 +23,76 @@ int	init_stacks(t_stack *stack_a, t_stack *stack_b, int length)
 	return (1);
 }
 
-int	parse_argv(t_stack *stack_a, t_stack *stack_b, char *argv)
+int	is_all_numbers(char **arr)
+{
+	int		i;
+
+	i = -1;
+	while (arr[++i])
+		if (!ft_atoi(arr[i]) && arr[i][0] != '0')
+			return (0);
+	return (1);
+}
+
+char	**get_values(int argc, char **argv, int *length)
+{
+	char	**splited;
+	int		i;
+
+	if (argc < 3)
+	{
+		splited = ft_split(argv[1], ' ');
+		if (!splited)
+			return (ft_printf("MALLOC ERROR\n"), NULL);
+		i = 0;
+		while (splited[i])
+			i++;
+		*length = i;
+	}
+	else
+	{
+		splited = &(argv[1]);
+		*length = argc - 1;
+	}
+	if (!is_all_numbers(splited))
+		return (ft_printf("ARGUMENTS ERROR\n"), NULL);
+	return (splited);
+}
+
+void	free_arr(char **splited)
+{
+	size_t	i;
+
+	i = 0;
+	while (splited[i])
+		free(splited[i++]);
+	free(splited);
+}
+
+int	parse_argv(t_stack *stack_a, t_stack *stack_b, int argc, char **argv)
 {
 	char	**splited;
 	int		i;
 	int		length;
 
-	splited = ft_split(argv, ' ');
-	i = -1;
-	while (splited[++i])
-		if (!ft_atoi(splited[i]) && splited[i][0] != '0')
-			return (ft_printf("SPLIT ERROR\n"), -1);
-	length = i;
+	splited = get_values(argc, argv, &length);
+	if (!splited)
+		return (-1);
 	if (!init_stacks(stack_a, stack_b, length))
-		return (0);
-	i = 0;
-	while (i < length)
+		return (-1);
+	i = -1;
+	while (++i < length)
 	{
 		if (is_in_array(ft_atoi(splited[length - i - 1]),
 				stack_a->elements, i))
+		{
+			if (argc < 3)
+				free_arr(splited);
 			return (ft_printf("DUPLICATE ERROR\n"), -1);
+		}
 		stack_a->elements[i] = ft_atoi(splited[length - i - 1]);
-		free(splited[length - i - 1]);
-		i++;
 	}
-	free(splited);
+	if (argc < 3)
+		free_arr(splited);
 	return (1);
 }
