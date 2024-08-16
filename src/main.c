@@ -6,7 +6,7 @@
 /*   By: akostian <akostian@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/30 14:22:38 by akostian          #+#    #+#             */
-/*   Updated: 2024/08/15 16:29:41 by akostian         ###   ########.fr       */
+/*   Updated: 2024/08/16 13:10:38 by akostian         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,10 +19,13 @@ int	main(int argc, char **argv)
 	t_stack		stack_a;
 	t_stack		stack_b;
 
-	if (argc == 2)
+	if (argc == 1)
 		return (1);
+	stack_a.elements = NULL;
+	stack_b.elements = NULL;
 	if (parse_argv(&stack_a, &stack_b, argc, argv) == -1)
-		return (free(stack_a.elements), free(stack_b.elements), -1);
+		if (!stack_a.elements || !stack_b.elements)
+			return (free(stack_a.elements), free(stack_b.elements), -1);
 	if (is_sorted(stack_a.elements, stack_a.length))
 		return (free(stack_a.elements), free(stack_b.elements), 1);
 	if (stack_a.length <= 3)

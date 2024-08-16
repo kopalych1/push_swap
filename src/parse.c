@@ -6,7 +6,7 @@
 /*   By: akostian <akostian@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/30 14:57:37 by akostian          #+#    #+#             */
-/*   Updated: 2024/08/15 16:30:22 by akostian         ###   ########.fr       */
+/*   Updated: 2024/08/16 13:21:02 by akostian         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,10 +59,12 @@ char	**get_values(int argc, char **argv, int *length)
 	return (splited);
 }
 
-void	free_arr(char **splited)
+void	free_arr(char **splited, int do_free)
 {
 	size_t	i;
 
+	if (!do_free)
+		return ;
 	i = 0;
 	while (splited[i])
 		free(splited[i++]);
@@ -79,20 +81,18 @@ int	parse_argv(t_stack *stack_a, t_stack *stack_b, int argc, char **argv)
 	if (!splited)
 		return (-1);
 	if (!init_stacks(stack_a, stack_b, length))
-		return (-1);
+		return (free_arr(splited, (argc < 3)), -1);
 	i = -1;
 	while (++i < length)
 	{
 		if (is_in_array(ft_atoi(splited[length - i - 1]),
 				stack_a->elements, i))
 		{
-			if (argc < 3)
-				free_arr(splited);
+			free_arr(splited, (argc < 3));
 			return (ft_printf("DUPLICATE ERROR\n"), -1);
 		}
 		stack_a->elements[i] = ft_atoi(splited[length - i - 1]);
 	}
-	if (argc < 3)
-		free_arr(splited);
+	free_arr(splited, (argc < 3));
 	return (1);
 }
