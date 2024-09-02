@@ -6,7 +6,7 @@
 #    By: akostian <akostian@student.s19.be>         +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/07/30 14:25:34 by akostian          #+#    #+#              #
-#    Updated: 2024/08/15 16:34:36 by akostian         ###   ########.fr        #
+#    Updated: 2024/09/02 04:21:13 by akostian         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -16,7 +16,8 @@ NAME		= push_swap
 SRC_DIR		= src
 SRCS		= main.c \
 			  parse.c \
-			  libft.c \
+			  utils.c \
+			  strict_atoi.c \
 			  stack_functions.c \
 			  stack_functions2.c \
 			  stack_utils.c \
@@ -24,8 +25,8 @@ SRCS		= main.c \
 			  calc_cost.c \
 			  rotate_stacks.c \
 			  sort_three.c \
-			  algo.c \
-			  algo2.c
+			  algo_min_push.c \
+			  algo_turk.c
 INCLUDES	= -Iinclude
 
 BUILD_DIR	= build

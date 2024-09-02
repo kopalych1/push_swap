@@ -6,7 +6,7 @@
 /*   By: akostian <akostian@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/30 14:22:35 by akostian          #+#    #+#             */
-/*   Updated: 2024/08/14 17:59:08 by akostian         ###   ########.fr       */
+/*   Updated: 2024/09/02 04:20:01 by akostian         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,10 +60,11 @@ int		count_average(int *arr, int size);
 int		is_sorted(int *arr, size_t size);
 
 int		parse_argv(t_stack *stack_a, t_stack *stack_b, int argc, char **argv);
-int		sort_algorithm(t_stack *stack_a, t_stack *stack_b);
-int		sort_algorithm2(t_stack *stack_a, t_stack *stack_b);
+int		algo_turk(t_stack *stack_a, t_stack *stack_b);
+int		algo_min_push(t_stack *stack_a, t_stack *stack_b);
 
-/* LIBFT */
+/* UTILS */
+int		strict_atoi(const char *str);
 int		ft_max(const int val1, const int val2);
 int		ft_min(const int val1, const int val2);
 int		is_in_array(int nbr, int *array, size_t array_length);

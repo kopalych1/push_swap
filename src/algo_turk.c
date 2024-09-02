@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   algo.c                                             :+:      :+:    :+:   */
+/*   algo_turk.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: akostian <akostian@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/06 07:41:21 by akostian          #+#    #+#             */
-/*   Updated: 2024/08/13 13:55:35 by akostian         ###   ########.fr       */
+/*   Updated: 2024/08/29 02:49:23 by akostian         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,7 +78,7 @@ int	(*calculate_b_push_cost(
 	return (push_cost);
 }
 
-int	stage_one(
+int	turk_stage_one(
 				t_stack *stack_a,
 				t_stack *stack_b
 )
@@ -103,7 +103,7 @@ int	stage_one(
 	return (0);
 }
 
-int	stage_two(t_stack *stack_a, t_stack *stack_b)
+int	turk_stage_two(t_stack *stack_a, t_stack *stack_b)
 {
 	int		min_index;
 	int		max_index;
@@ -130,12 +130,12 @@ int	stage_two(t_stack *stack_a, t_stack *stack_b)
 	return (0);
 }
 
-int	sort_algorithm(t_stack *stack_a, t_stack *stack_b)
+int	algo_turk(t_stack *stack_a, t_stack *stack_b)
 {
-	if (stage_one(stack_a, stack_b) == -1)
+	if (turk_stage_one(stack_a, stack_b) == -1)
 		return (-1);
 	sort_three(stack_a);
-	if (stage_two(stack_a, stack_b) == -1)
+	if (turk_stage_two(stack_a, stack_b) == -1)
 		return (-1);
 	return (0);
 }

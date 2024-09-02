@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   algo2.c                                            :+:      :+:    :+:   */
+/*   algo_min_push.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: akostian <akostian@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/06 07:41:21 by akostian          #+#    #+#             */
-/*   Updated: 2024/08/13 14:13:05 by akostian         ###   ########.fr       */
+/*   Updated: 2024/08/29 01:09:30 by akostian         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,7 @@ void	push_b(
 	}
 }
 
-void	stage_one2(
+void	min_push_stage_one(
 				t_stack *stack_a,
 				t_stack *stack_b,
 				t_sorting_settings *settings
@@ -80,7 +80,7 @@ void	stage_one2(
 	}
 }
 
-void	stage_two2(t_stack *stack_a, t_stack *stack_b)
+void	min_push_stage_two(t_stack *stack_a, t_stack *stack_b)
 {
 	int	max_index;
 
@@ -99,7 +99,7 @@ void	stage_two2(t_stack *stack_a, t_stack *stack_b)
 	}
 }
 
-int	sort_algorithm2(t_stack *stack_a, t_stack *stack_b)
+int	algo_min_push(t_stack *stack_a, t_stack *stack_b)
 {
 	t_sorting_settings	settings;
 
@@ -109,8 +109,8 @@ int	sort_algorithm2(t_stack *stack_a, t_stack *stack_b)
 	settings.sorted = sort_stack(stack_a);
 	if (!settings.sorted)
 		return (-1);
-	stage_one2(stack_a, stack_b, &settings);
-	stage_two2(stack_a, stack_b);
+	min_push_stage_one(stack_a, stack_b, &settings);
+	min_push_stage_two(stack_a, stack_b);
 	free(settings.sorted);
 	return (0);
 }
