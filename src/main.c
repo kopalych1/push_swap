@@ -6,7 +6,7 @@
 /*   By: akostian <akostian@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/30 14:22:38 by akostian          #+#    #+#             */
-/*   Updated: 2024/09/02 08:15:39 by akostian         ###   ########.fr       */
+/*   Updated: 2024/09/13 15:38:46 by akostian         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,8 @@ int	main(int argc, char **argv)
 
 	if (argc == 1)
 		return (1);
+	if (argc == 2 && !argv[1][0])
+		return (write(2, "Error\n", 6), 0);
 	stack_a.elements = NULL;
 	stack_b.elements = NULL;
 	if (parse_argv(&stack_a, &stack_b, argc, argv) == -1)
